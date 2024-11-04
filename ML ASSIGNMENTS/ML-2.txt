@@ -1,0 +1,91 @@
+import numpy as np 
+import pandas as pd 
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+import seaborn as sns
+
+
+df =  pd.read_csv("C:/Users/hp/OneDrive/Desktop/temperatures/temperatures.csv")
+
+df.head(n=10)
+
+df.dtypes
+
+df.columns
+
+df.describe()
+
+df.isnull().sum()
+
+
+top_10_data = df.nlargest(10, "ANNUAL")
+plt.figure(figsize=(14,12))
+plt.title("Top 10 temperature records")
+sns.barplot(x=top_10_data.YEAR, y=top_10_data.ANNUAL)
+
+
+from sklearn import linear_model, metrics
+
+df.columns
+
+
+X=df[["YEAR"]]
+Y=df[["JAN"]]
+
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=1)
+
+len(X_train)
+
+len(X_test)
+
+df.shape
+
+reg = linear_model.LinearRegression()
+
+print(X_train)
+
+model = reg.fit(X_train, Y_train)
+
+
+r_sq = reg.score(X_train, Y_train)
+print("Determination coefficient:", r_sq)
+print('Intercept:', model.intercept_)
+print('Slope:', model.coef_)
+
+
+Y_pred = model.predict(X_test)
+print('predicted response:', Y_pred, sep='\n')
+
+
+plt.scatter(X_train, Y_train, color='black')
+plt.plot(X_train, reg.predict(X_train), color='blue', linewidth=3)
+plt.title("Temperature vs Year")
+plt.xlabel("Year")
+plt.ylabel("Temperature")
+plt.show()
+
+
+plt.scatter(X_test, Y_test, color='red')
+plt.plot(X_test, reg.predict(X_test), color='black', linewidth=3)
+plt.title("Temperature vs Year")
+plt.xlabel("Year")
+plt.ylabel("Temperature")
+plt.show()
+
+
+mse = np.sum((Y_pred - Y_test)**2) # mean squared error (MSE)
+rmse = np.sqrt(mse/24) # root mean squared error (RMSE)
+print("Mean Squared Error(MSE):", mse)
+print("Root Mean Squared Error(RMSE):", rmse)
+
+
+SSR = np.sum((Y_pred - Y_test)**2) #Sum of square of Residuals/Errors SSR/SSE
+SST = np.sum((Y_test - np.mean(Y_test))**2) # total sum of squares
+r2_score = 1 - (SSR/SST) # R2 score
+print('SST:', SST)
+print('SSR', SSR)
+print('R2 square:', r2_score)
+
+

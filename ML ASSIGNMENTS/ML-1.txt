@@ -1,0 +1,71 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import hvplot.pandas
+from scipy import stats
+
+
+%matplotlib inline
+sns.set_style("whitegrid")
+plt.style.use("fivethirtyeight")
+
+
+df = pd.read_csv("C:/Users/hp/OneDrive/Desktop/Heart/Heart.csv")
+
+df.head()
+
+df.info()
+
+df.shape
+
+df.size
+
+df.describe()
+
+df.notnull()
+
+df.values
+
+df["Age"].mean()
+
+df.isin([0]).any()
+(df==0).sum()
+
+import pandas as pd 
+from sklearn.model_selection import train_test_split
+
+
+X = df[['ChestPain', 'Age', 'Sex', 'RestBP', 'Chol']]
+y = df[['RestBP', 'Chol']]
+X_train, X_test, y_train, y_text = train_test_split(X, y, test_size=0.25,
+random_state=10)
+X_train
+
+
+train, test = train_test_split(df, random_state=0, test_size=0.25)
+
+train.shape
+
+train.size
+
+import numpy as np
+
+actual = list(np.ones(45)) + list(np.zeros(55))
+
+np.array(actual)
+
+predicted = list(np.ones(40)) + list(np.zeros(52)) + list(np.ones(8))
+np.array(predicted)
+
+from sklearn.metrics import ConfusionMatrixDisplay
+
+ConfusionMatrixDisplay.from_predictions(actual,predicted)
+
+from sklearn.metrics import classification_report
+
+print(classification_report(actual,predicted))
+
+from sklearn.metrics import accuracy_score
+accuracy_score(actual,predicted)
+
